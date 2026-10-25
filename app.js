@@ -90,7 +90,7 @@
     const doneCount = list.filter((task) => completed.has(task.id)).length;
     const nearestIds = new Set(state.nearest.map((task) => task.id));
     const nextIds = new Set(state.next.map((task) => task.id));
-    return `<article class="subject"><header class="subject-heading"><span class="subject-number">${String(index + 1).padStart(2, '0')}</span><h3 ${inDialog ? 'id="dialog-subject-title"' : ''}>${inDialog ? escape(subject.title) : `<button type="button" class="subject-open" data-open-subject="${escape(subject.id)}" aria-label="Открыть предмет: ${escape(subject.title)}">${escape(subject.title)}<span class="open-arrow" aria-hidden="true">↗&#xfe0e;</span></button>`}</h3><span class="subject-count">${list.length ? `${doneCount}/${list.length}` : '—'}</span></header>
+    return `<article class="subject"><header class="subject-heading"><span class="subject-number">${String(index + 1).padStart(2, '0')}</span><h3 ${inDialog ? 'id="dialog-subject-title"' : ''}>${inDialog ? escape(subject.title) : `<button type="button" class="subject-open" data-open-subject="${escape(subject.id)}" aria-label="Открыть предмет: ${escape(subject.title)}">${escape(subject.title)}<span class="open-arrow" aria-hidden="true">&rsaquo;</span></button>`}</h3><span class="subject-count">${list.length ? `${doneCount}/${list.length}` : '—'}</span></header>
       ${list.length ? `<ul class="task-list">${list.map((task) => {
         const done = completed.has(task.id);
         const highlight = nearestIds.has(task.id) ? 'nearest' : nextIds.has(task.id) ? 'next' : '';
