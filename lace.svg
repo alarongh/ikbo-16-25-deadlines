@@ -1,11 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="80" height="28" viewBox="0 0 80 28" fill="none">
-  <g stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M0 2H80M0 5H80" stroke-width="1.2"/>
-    <path d="M0 7L8 15 16 7 24 15 32 7 40 15 48 7 56 15 64 7 72 15 80 7M0 15L8 7 16 15 24 7 32 15 40 7 48 15 56 7 64 15 72 7 80 15" stroke-width=".65" opacity=".8"/>
-    <path d="M0 15Q8 29 16 15Q24 29 32 15Q40 29 48 15Q56 29 64 15Q72 29 80 15" stroke-width="1.15"/>
-    <path d="M0 17Q8 33 16 17Q24 33 32 17Q40 33 48 17Q56 33 64 17Q72 33 80 17" stroke-width=".7"/>
-    <path d="M8 17C1 12 3 8 8 13C13 8 15 12 8 17ZM24 17C17 12 19 8 24 13C29 8 31 12 24 17ZM40 17C33 12 35 8 40 13C45 8 47 12 40 17ZM56 17C49 12 51 8 56 13C61 8 63 12 56 17ZM72 17C65 12 67 8 72 13C77 8 79 12 72 17Z" stroke-width=".8"/>
-    <path d="M8 17V21M24 17V21M40 17V21M56 17V21M72 17V21" stroke-width=".7"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="120" viewBox="0 0 160 120" fill="none">
+  <g stroke="#af7489" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M82-9C66 16 101 26 86 48C75 65 94 77 121 69C142 63 139 89 165 83" stroke-width=".8"/>
+    <path d="M88-8C73 16 108 26 93 48C82 64 100 70 121 63C148 56 145 82 165 77" stroke-width=".55"/>
+    <path d="M108 9C87 2 87 24 106 29C91 37 100 52 116 39C118 59 137 54 128 37C150 37 147 18 129 24C139 5 118-1 116 18C113 14 111 11 108 9Z" stroke-width=".85"/>
+    <path d="M116 31C114 23 107 18 101 17M116 31L105 42M116 31L124 47M116 31L139 29M116 31L126 11" stroke-width=".5"/>
+    <circle cx="116" cy="31" r="3.5" stroke-width=".8"/>
+    <path d="M115 37C116 53 129 61 145 66M127 54C123 40 135 38 137 47C138 53 133 57 127 54ZM138 62C137 48 152 48 151 55C150 61 145 64 138 62Z" stroke-width=".7"/>
+    <path d="M99 4L151 56M91 14L152 75M89 28L136 75M95 46L123 74M98 4L154 60M116 1L157 42M134 0L161 27M85 15L117-4M91 30L139 0M92 48L159 6M98 63L162 23M113 72L162 42M136 76L162 60" stroke-width=".35" opacity=".65"/>
+    <path d="M79 1C77 13 81 19 88 24M87 33C83 44 84 48 89 53M92 62C97 70 106 73 113 72M125 70C133 71 138 77 141 81M150 84L159 85" stroke-width="1" stroke-dasharray=".1 3"/>
   </g>
-  <g fill="#fff"><circle cx="0" cy="16" r="1.2"/><circle cx="16" cy="16" r="1.2"/><circle cx="32" cy="16" r="1.2"/><circle cx="48" cy="16" r="1.2"/><circle cx="64" cy="16" r="1.2"/><circle cx="80" cy="16" r="1.2"/><circle cx="8" cy="25" r="1"/><circle cx="24" cy="25" r="1"/><circle cx="40" cy="25" r="1"/><circle cx="56" cy="25" r="1"/><circle cx="72" cy="25" r="1"/></g>
 </svg>
