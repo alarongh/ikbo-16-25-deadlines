@@ -18,10 +18,12 @@
   function resolveDeadline(task, subject) {
     const d = task.deadline;
     if (d.kind === 'semester') return { end: null, dateKey: null, label: 'До конца семестра', detail: 'Точная дата уточняется', window: false };
-    if (d.kind === 'weeks') {
-      const end = addDays(weekStart(d.end), subject.schedule.weekday - 1);
+    if (d.kind === 'unknown') return { end: null, dateKey: null, label: 'Срок пока не указан', detail: 'Дата уточняется', window: false };
+    if (d.kind === 'weeks' || d.kind === 'lesson') {
+      const end = addDays(weekStart(d.kind === 'lesson' ? d.week : d.end), subject.schedule.weekday - 1);
       const [hours, minutes] = data.lessonEnds[subject.schedule.lesson].split(':').map(Number);
       end.setHours(hours, minutes, 0, 0);
+      if (d.kind === 'lesson') return { end, dateKey: isoDate(end), label: format(end), detail: `${weekdays[subject.schedule.weekday]}, ${subject.schedule.lesson}-я пара · ${data.lessonStarts[subject.schedule.lesson]}–${data.lessonEnds[subject.schedule.lesson]}`, window: false };
       const period = `${format(weekStart(d.start))} — ${format(addDays(weekStart(d.end), 6))}`;
       return { end, dateKey: isoDate(end), label: format(end), detail: `Период: ${period} · ${weekdays[subject.schedule.weekday]}, ${subject.schedule.lesson}-я пара, до ${data.lessonEnds[subject.schedule.lesson]}`, window: false };
     }
@@ -37,6 +39,8 @@
   const tasks = data.subjects.flatMap((subject) => subject.tasks.map((task) => ({ ...task, subject, resolved: resolveDeadline(task, subject) })));
   const knownIds = new Set(tasks.map((task) => task.id));
   let completed = new Set();
+  let retainedProgress = new Set();
+  let deadlineTimer;
   let storageUsable = true;
   let selectedSubjectId = null;
   const dialog = $('subject-dialog');
@@ -45,21 +49,29 @@
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
       completed = new Set(Array.isArray(saved) ? saved.filter((id) => knownIds.has(id)) : []);
+      // Старые отметки блоков не означают сдачу конкретных новых работ.
+      retainedProgress = new Set(Array.isArray(saved) ? saved.filter((id) => typeof id === 'string' && !knownIds.has(id)) : []);
     } catch { storageUsable = false; }
   }
   function storageNotice() {
     $('storage-warning').hidden = storageUsable;
     $('storage-warning').textContent = 'Браузер не разрешает сохранять отметки. Сейчас они действуют только до закрытия страницы.';
+    $('data-notice').hidden = ![...retainedProgress].some((id) => /^arch-block-[1-4]$/.test(id));
+    $('data-notice').textContent = 'В архитектуре теперь отдельная отметка на каждую работу. Прежние отметки блоков сохранены в браузере; отметь сданные работы по отдельности.';
   }
   readProgress();
 
+  function deadlinePassed(task, now) {
+    return task.resolved.end && (task.deadline.kind === 'lesson' ? task.resolved.end <= now : task.resolved.end < now);
+  }
+
   function getState(now, sourceTasks = tasks) {
     const pending = sourceTasks.filter((task) => !completed.has(task.id));
-    const upcoming = pending.filter((task) => task.resolved.end && task.resolved.end >= now).sort((a, b) => a.resolved.end - b.resolved.end);
+    const upcoming = pending.filter((task) => task.resolved.end && !deadlinePassed(task, now)).sort((a, b) => a.resolved.end - b.resolved.end);
     const dates = [...new Set(upcoming.map((task) => task.resolved.dateKey))];
     return {
       pending,
-      overdue: pending.filter((task) => task.resolved.end && task.resolved.end < now && !task.deadline.tentative),
+      overdue: pending.filter((task) => deadlinePassed(task, now) && !task.deadline.tentative),
       undated: pending.filter((task) => !task.resolved.end),
       nearest: upcoming.filter((task) => task.resolved.dateKey === dates[0]),
       next: upcoming.filter((task) => task.resolved.dateKey === dates[1])
@@ -95,7 +107,7 @@
       ${list.length ? `<ul class="task-list">${list.map((task) => {
         const done = completed.has(task.id);
         const highlight = nearestIds.has(task.id) ? 'nearest' : nextIds.has(task.id) ? 'next' : '';
-        const overdue = !done && task.resolved.end && task.resolved.end < now;
+        const overdue = !done && deadlinePassed(task, now);
         const status = done ? 'Сдано' : highlight === 'nearest' ? 'Ближайший срок' : highlight === 'next' ? 'Следующий срок' : overdue ? (task.deadline.tentative ? 'Ориентировочный период прошёл · даты уточняются' : 'Срок прошёл') : '';
         return `<li class="task ${highlight} ${done ? 'completed' : ''}" id="${inDialog ? 'dialog-' : ''}task-${escape(task.id)}"><label class="task-label">
           <input type="checkbox" data-task-id="${escape(task.id)}" ${done ? 'checked' : ''} aria-label="Сдано: ${escape(subject.short)} — ${escape(task.title)}">
@@ -148,13 +160,18 @@
     renderDialog(now);
     if (focused) (dialog.open ? dialog : $('subjects')).querySelector(`[data-task-id="${focused}"]`)?.focus({ preventScroll: true });
     storageNotice();
+    // Помимо фонового обновления, переключаем статус ровно на границе пары.
+    clearTimeout(deadlineTimer);
+    const boundaries = tasks.filter((task) => task.resolved.end && !deadlinePassed(task, now)).map((task) => task.resolved.end.getTime() + (task.deadline.kind === 'lesson' ? 0 : 1));
+    const delay = Math.max(1, Math.min(30000, ...boundaries.map((time) => time - now.getTime())));
+    deadlineTimer = setTimeout(render, delay);
   }
 
   function changeProgress(event) {
     const id = event.target.dataset.taskId;
     if (!knownIds.has(id)) return;
     if (event.target.checked) completed.add(id); else completed.delete(id);
-    try { localStorage.setItem(storageKey, JSON.stringify([...completed])); storageUsable = true; }
+    try { localStorage.setItem(storageKey, JSON.stringify([...retainedProgress, ...completed])); storageUsable = true; }
     catch { storageUsable = false; }
     const task = tasks.find((item) => item.id === id);
     render();
@@ -185,8 +202,6 @@
   window.addEventListener('storage', (event) => {
     if (event.key === storageKey || event.key === null) { completed = new Set(); readProgress(); render(); }
   });
-  // Обновляет переход суток и окончание пары, пока вкладка открыта.
-  setInterval(render, 30000);
   window.addEventListener('focus', render);
   render();
 })();

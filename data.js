@@ -1,25 +1,36 @@
 // Все предметы и сроки редактируются здесь. id сохраняйте при изменении названия:
 // к нему привязаны отметки localStorage. Даты: YYYY-MM-DD.
-// weeks — занятие в последней неделе; window — включительное окно дат;
-// weekWindow — окно учебных недель; date — точная дата; semester — дата неизвестна.
+// lesson — одна работа на конкретной паре; weeks — занятие в последней неделе;
+// window — включительное окно дат;
+// weekWindow — окно учебных недель; date — точная дата;
+// semester — до конца семестра; unknown — срок пока не сообщён.
 window.DEADLINE_DATA = {
   group: 'ИКБО-16-25',
   // Понедельник календарной недели, в которой началось обучение 01.09.2026.
   weekAnchor: '2026-08-31',
   studyStart: '2026-09-01',
+  lessonStarts: { 1: '09:00', 2: '10:40', 3: '12:40', 4: '14:20', 5: '16:20', 6: '18:00' },
   lessonEnds: { 1: '10:30', 2: '12:10', 3: '14:10', 4: '15:50', 5: '17:50', 6: '19:30' },
   subjects: [
     {
       id: 'architecture', title: 'Архитектура вычислительных машин', short: 'Архитектура',
       schedule: { weekday: 4, lesson: 3 },
       tasks: [
-        { id: 'arch-block-1', title: 'Практические · блок 1', type: 'practice', deadline: { kind: 'weeks', start: 3, end: 6 } },
-        { id: 'arch-block-2', title: 'Практические · блок 2', type: 'practice', deadline: { kind: 'weeks', start: 7, end: 9 } },
-        { id: 'arch-block-3', title: 'Практические · блок 3', type: 'practice', deadline: { kind: 'weeks', start: 9, end: 12 } },
-        { id: 'arch-block-4', title: 'Практические · блок 4', type: 'practice', deadline: { kind: 'weeks', start: 13, end: 16 } }
+        // По уточнению пользователя: 12 работ, одна на пару, начиная с 3-й недели.
+        // Нумерация календарная; темы из разных наборов методичек не смешиваются.
+        ...Array.from({ length: 12 }, (_, i) => ({
+          id: `arch-practice-${i + 1}`, title: `Практическая работа ${i + 1}`, type: 'practice',
+          deadline: { kind: 'lesson', week: i + 3 }
+        }))
       ]
     },
-    { id: 'configuration', title: 'Конфигурационное управление', short: 'Конфигурационное управление', tasks: [] },
+    {
+      id: 'configuration', title: 'Конфигурационное управление', short: 'Конфигурационное управление',
+      tasks: Array.from({ length: 4 }, (_, i) => ({
+        id: `config-practice-${i + 1}`, title: `Практическая работа ${i + 1}`, type: 'practice',
+        deadline: { kind: 'unknown' }
+      }))
+    },
     {
       id: 'administration', title: 'Настройка и администрирование сервисного программного обеспечения', short: 'Администрирование',
       schedule: { weekday: 1, lesson: 1 },
