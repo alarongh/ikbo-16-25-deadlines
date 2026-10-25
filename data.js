@@ -22,13 +22,13 @@ window.DEADLINE_DATA = {
     { id: 'configuration', title: 'Конфигурационное управление', short: 'Конфигурационное управление', tasks: [] },
     {
       id: 'administration', title: 'Настройка и администрирование сервисного программного обеспечения', short: 'Администрирование',
-      schedule: { weekday: 1, lesson: 3 },
+      schedule: { weekday: 1, lesson: 1 },
       tasks: [
         { id: 'admin-practice-1', title: 'Практическая работа 1', type: 'practice', deadline: { kind: 'weeks', start: 3, end: 6 } },
         { id: 'admin-practice-2', title: 'Практическая работа 2', type: 'practice', deadline: { kind: 'weeks', start: 7, end: 9 } },
         { id: 'admin-practice-3', title: 'Практическая работа 3', type: 'practice', deadline: { kind: 'weeks', start: 10, end: 12 } },
         { id: 'admin-practice-4', title: 'Практическая работа 4', type: 'practice', deadline: { kind: 'weeks', start: 13, end: 15 } },
-        { id: 'admin-test', title: 'Тестирование', type: 'test', note: 'Открытие ожидается в один из дней 15–16-й недель. Точные даты уточняются.', deadline: { kind: 'weekWindow', start: 15, end: 16 } },
+        { id: 'admin-test', title: 'Тестирование', type: 'test', note: 'Тест откроют в один из дней примерно на 15–16-й неделях. Это ориентир, а не подтверждённые даты доступа.', deadline: { kind: 'weekWindow', start: 15, end: 16, tentative: true } },
         { id: 'admin-coursework', title: 'Курсовая работа', type: 'coursework', deadline: { kind: 'semester' } }
       ]
     },

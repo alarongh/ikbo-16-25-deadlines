@@ -8,3 +8,34 @@
 .deadline-card>.card-top,.deadline-card>.card-label{position:relative;z-index:1}
 .deadline-card .countdown{background:#fcf5f7}
 .secondary::after{opacity:.18}
+
+/* Общая бело-розовая тема и кружевные вставки на всей странице. */
+body{background:linear-gradient(110deg,#fff 45%,#fdf8fa);background-attachment:fixed}
+.header,footer{position:relative;isolation:isolate}
+.header::after,footer::after,.subject-heading::after,.subject-picker::after{content:"";position:absolute;right:0;top:0;width:160px;height:120px;background:url("./lace.svg?v=4") no-repeat right top;opacity:.18;pointer-events:none;z-index:-1}
+.header::after{right:-16px;top:-36px;opacity:.16}
+footer::after{top:auto;bottom:0;opacity:.12;transform:rotate(180deg)}
+.subject{border-color:#ecdce3;box-shadow:0 5px 22px #9b526907}
+.subject-heading{position:relative;isolation:isolate;background:#fcf5f7;border-bottom:1px solid #f1e3e9;overflow:hidden;align-items:start}
+.subject-heading::after{width:135px;height:90px;background-size:135px auto;opacity:.23}
+.subject-heading h3,.subject-heading .subject-count{position:relative;z-index:1}
+.subject-open{font:inherit;color:inherit;background:none;border:0;text-align:left;padding:0;cursor:pointer;line-height:inherit;display:inline}
+.subject-open:hover{color:var(--accent)}
+.open-arrow{font-size:13px;color:var(--accent);margin-left:7px;white-space:nowrap}
+.subject-empty{padding-top:18px}
+.subject-picker{position:sticky;top:10px;z-index:5;isolation:isolate;display:flex;align-items:center;gap:16px;background:#fffafc;border:1px solid #ead8e0;border-radius:12px;padding:12px 16px;margin:0 0 24px;box-shadow:0 4px 18px #9b52690a;overflow:hidden}
+.subject-picker::after{height:70px;width:110px;background-size:110px auto;opacity:.15}
+.subject-picker label{font-size:13px;font-weight:600;white-space:nowrap}
+.subject-picker select{width:100%;min-width:0;max-width:660px;font:inherit;font-size:13px;color:var(--ink);background:#fff;border:1px solid #ddc7d1;border-radius:7px;padding:10px 34px 10px 12px;cursor:pointer;text-overflow:ellipsis}
+.subject-dialog{width:min(700px,calc(100% - 32px));max-height:85vh;max-height:85dvh;margin:auto;padding:0;background:#fff;border:1px solid #dec1cd;border-radius:16px;color:var(--ink);overscroll-behavior:contain;box-shadow:0 20px 70px #57394426}
+.subject-dialog::backdrop{background:#332b3059;backdrop-filter:blur(3px)}
+.dialog-toolbar{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;background:#fcf5f7;border-bottom:1px solid var(--line);z-index:3;font-size:12px;color:var(--muted)}
+.dialog-toolbar button{display:flex;align-items:center;gap:12px;font:inherit;color:var(--ink);border:1px solid #dfc8d3;background:white;border-radius:7px;padding:8px 12px;cursor:pointer}
+.dialog-toolbar button:hover{background:#f7e6eb}
+.dialog-toolbar button span{font-size:20px;line-height:1}
+.subject-dialog .subject{border:0;border-radius:0;box-shadow:none}
+.subject-dialog .subject-heading{padding:22px 22px 20px;position:relative}
+.subject-dialog h3{font-size:19px}
+.subject-dialog .task-label{padding:17px 22px}
+body.dialog-open{overflow:hidden}
+@media(max-width:700px){.subject-picker{top:6px;gap:7px;align-items:stretch;flex-direction:column;padding:10px 12px;margin-bottom:20px}.subject-picker label{font-size:11px}.subject-picker select{font-size:13px;padding:10px}.header::after{top:-20px;right:-10px;width:110px;opacity:.1;background-size:110px auto}.subject-dialog{width:calc(100% - 20px);max-height:90vh;max-height:90dvh}.subject-dialog .subject-heading{padding:18px 16px}.subject-dialog h3{font-size:17px}.subject-dialog .task-label{padding:15px 16px}.dialog-toolbar{padding:10px 14px}}

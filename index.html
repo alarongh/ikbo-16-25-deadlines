@@ -7,9 +7,9 @@
   <meta name="description" content="Практики, тесты и ближайшие дедлайны группы ИКБО-16-25. Отмечайте сданные работы — прогресс сохранится в браузере.">
   <title>Дедлайны · ИКБО-16-25</title>
   <link rel="icon" href="./favicon.svg?v=2" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css?v=4">
-  <script src="./data.js" defer></script>
-  <script src="./app.js" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=5">
+  <script src="./data.js?v=5" defer></script>
+  <script src="./app.js?v=5" defer></script>
 </head>
 <body>
   <main class="page">
@@ -20,6 +20,11 @@
       </div>
       <div class="today"><time id="today"></time><span id="week"></span></div>
     </header>
+
+    <nav class="subject-picker" aria-label="Быстрый доступ к предметам">
+      <label for="subject-select">Открыть предмет</label>
+      <select id="subject-select"><option value="">Выбрать предмет…</option></select>
+    </nav>
 
     <section class="progress" aria-label="Прогресс сдачи">
       <div><strong id="progress-count">0</strong><span id="progress-caption">работ сдано</span></div>
@@ -40,10 +45,14 @@
     </section>
     <footer>
       <p>Прогресс хранится только в этом браузере. На другом устройстве отметки будут отдельными.</p>
-      <p>Пары для сроков по учебным неделям сопоставлены по расписанию. Окна тестирования и сроки без даты показаны отдельно.</p>
+      <p>Сроки по учебным неделям рассчитаны по расписанию; для отсчёта используется окончание пары. Окна тестирования и сроки без даты показаны отдельно.</p>
     </footer>
     <p class="sr-only" id="announcement" aria-live="polite"></p>
     <noscript>Для отметок и расчёта ближайшего дедлайна включите JavaScript.</noscript>
   </main>
+  <dialog id="subject-dialog" class="subject-dialog" aria-labelledby="dialog-subject-title">
+    <div class="dialog-toolbar"><span>Работы по предмету</span><button type="button" id="close-subject" aria-label="Закрыть предмет">Закрыть <span aria-hidden="true">×</span></button></div>
+    <div id="dialog-subject-content"></div>
+  </dialog>
 </body>
 </html>
