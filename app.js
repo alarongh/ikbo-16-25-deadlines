@@ -22,7 +22,8 @@
       const end = addDays(weekStart(d.end), subject.schedule.weekday - 1);
       const [hours, minutes] = data.lessonEnds[subject.schedule.lesson].split(':').map(Number);
       end.setHours(hours, minutes, 0, 0);
-      return { end, dateKey: isoDate(end), label: format(end), detail: `${d.start}–${d.end}-я недели · ${weekdays[subject.schedule.weekday]}, ${subject.schedule.lesson}-я пара, до ${data.lessonEnds[subject.schedule.lesson]}`, window: false };
+      const period = `${format(weekStart(d.start))} — ${format(addDays(weekStart(d.end), 6))}`;
+      return { end, dateKey: isoDate(end), label: format(end), detail: `Период: ${period} · ${weekdays[subject.schedule.weekday]}, ${subject.schedule.lesson}-я пара, до ${data.lessonEnds[subject.schedule.lesson]}`, window: false };
     }
     if (d.kind === 'date') {
       const end = endOfDay(localDate(d.date));
@@ -30,7 +31,7 @@
     }
     const start = d.kind === 'weekWindow' ? weekStart(d.start) : localDate(d.start);
     const end = endOfDay(d.kind === 'weekWindow' ? addDays(weekStart(d.end), 6) : localDate(d.end));
-    return { start, end, dateKey: isoDate(end), label: `${format(start)} — ${format(end)}`, detail: d.tentative ? `Ориентировочно · ${d.start}–${d.end}-я недели` : d.kind === 'weekWindow' ? `Окно · ${d.start}–${d.end}-я недели` : 'Окно сдачи', window: true };
+    return { start, end, dateKey: isoDate(end), label: `${format(start)} — ${format(end)}`, detail: d.tentative ? 'Ориентировочный период' : 'Окно сдачи', window: true };
   }
 
   const tasks = data.subjects.flatMap((subject) => subject.tasks.map((task) => ({ ...task, subject, resolved: resolveDeadline(task, subject) })));
@@ -130,7 +131,8 @@
     $('today').textContent = format(now);
     const anchor = localDate(data.weekAnchor);
     const week = Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(anchor.getFullYear(), anchor.getMonth(), anchor.getDate())) / (7 * 86400000)) + 1;
-    $('week').textContent = now < localDate(data.studyStart) ? 'До начала семестра' : week <= 16 ? `${week}-я учебная неделя` : 'После 16-й учебной недели';
+    const currentStart = week === 1 ? localDate(data.studyStart) : weekStart(week);
+    $('week').textContent = now < localDate(data.studyStart) ? `Начало занятий: ${format(localDate(data.studyStart))}` : `${format(currentStart)} — ${format(addDays(weekStart(week), 6))}`;
     $('progress-count').textContent = `${completed.size} / ${tasks.length}`;
     $('progress-caption').textContent = 'работ сдано';
     $('remaining').textContent = `Осталось ${state.pending.length}`;

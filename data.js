@@ -28,7 +28,7 @@ window.DEADLINE_DATA = {
         { id: 'admin-practice-2', title: 'Практическая работа 2', type: 'practice', deadline: { kind: 'weeks', start: 7, end: 9 } },
         { id: 'admin-practice-3', title: 'Практическая работа 3', type: 'practice', deadline: { kind: 'weeks', start: 10, end: 12 } },
         { id: 'admin-practice-4', title: 'Практическая работа 4', type: 'practice', deadline: { kind: 'weeks', start: 13, end: 15 } },
-        { id: 'admin-test', title: 'Тестирование', type: 'test', note: 'Тест откроют в один из дней примерно на 15–16-й неделях. Это ориентир, а не подтверждённые даты доступа.', deadline: { kind: 'weekWindow', start: 15, end: 16, tentative: true } },
+        { id: 'admin-test', title: 'Тестирование', type: 'test', note: 'Тест откроют в один из дней ориентировочного периода. Точные даты доступа пока неизвестны.', deadline: { kind: 'weekWindow', start: 15, end: 16, tentative: true } },
         { id: 'admin-coursework', title: 'Курсовая работа', type: 'coursework', deadline: { kind: 'semester' } }
       ]
     },
@@ -40,7 +40,7 @@ window.DEADLINE_DATA = {
           id: `java-practice-${i + 1}`, title: `Практическая работа ${i + 1}`, type: 'practice',
           deadline: { kind: 'weeks', start: 3 + i * 2, end: 4 + i * 2 }
         })),
-        { id: 'java-test', title: 'Аудиторное контрольное тестирование', type: 'test', note: 'СДО · 13–14-я учебные недели.', deadline: { kind: 'weekWindow', start: 13, end: 14 } }
+        { id: 'java-test', title: 'Аудиторное контрольное тестирование', type: 'test', note: 'Прохождение в СДО.', deadline: { kind: 'weekWindow', start: 13, end: 14 } }
       ]
     },
     {
