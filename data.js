@@ -26,10 +26,13 @@ window.DEADLINE_DATA = {
     },
     {
       id: 'configuration', title: 'Конфигурационное управление', short: 'Конфигурационное управление',
-      tasks: Array.from({ length: 4 }, (_, i) => ({
-        id: `config-practice-${i + 1}`, title: `Практическая работа ${i + 1}`, type: 'practice',
-        deadline: { kind: 'unknown' }
-      }))
+      tasks: [
+        ...Array.from({ length: 3 }, (_, i) => ({
+          id: `config-practice-${i + 1}`, title: `Практическая работа ${i + 1}`, type: 'practice',
+          deadline: { kind: 'unknown' }
+        })),
+        { id: 'config-test', title: 'Тестирование', type: 'test', deadline: { kind: 'unknown' } }
+      ]
     },
     {
       id: 'administration', title: 'Настройка и администрирование сервисного программного обеспечения', short: 'Администрирование',
@@ -70,10 +73,14 @@ window.DEADLINE_DATA = {
       id: 'algorithms', title: 'Структуры и алгоритмы обработки данных', short: 'Структуры и алгоритмы',
       schedule: { weekday: 4, lesson: 4 },
       tasks: [
-        { id: 'alg-practice-1', title: 'Практическая работа 1 (5)', type: 'practice', deadline: { kind: 'window', start: '2026-09-14', end: '2026-09-27' } },
-        { id: 'alg-practice-2', title: 'Практическая работа 2 (6)', type: 'practice', deadline: { kind: 'window', start: '2026-09-28', end: '2026-10-25' } },
-        { id: 'alg-practice-3', title: 'Практическая работа 3 (7)', type: 'practice', deadline: { kind: 'window', start: '2026-10-26', end: '2026-11-22' } },
-        { id: 'alg-practice-4', title: 'Практическая работа 4 (8)', type: 'practice', deadline: { kind: 'window', start: '2026-11-23', end: '2026-12-20' } }
+        { id: 'alg-practice-1', title: 'Практическая работа 5.1', type: 'practice', deadline: { kind: 'window', start: '2026-09-14', end: '2026-09-27' } },
+        { id: 'alg-practice-6-1', title: 'Практическая работа 6.1', type: 'practice', deadline: { kind: 'window', start: '2026-09-28', end: '2026-10-25' } },
+        { id: 'alg-practice-6-2', title: 'Практическая работа 6.2', type: 'practice', deadline: { kind: 'window', start: '2026-09-28', end: '2026-10-25' } },
+        { id: 'alg-practice-7-1', title: 'Практическая работа 7.1', type: 'practice', deadline: { kind: 'window', start: '2026-10-26', end: '2026-11-22' } },
+        { id: 'alg-practice-7-2', title: 'Практическая работа 7.2', type: 'practice', deadline: { kind: 'window', start: '2026-10-26', end: '2026-11-22' } },
+        { id: 'alg-test', title: 'Тестирование', type: 'test', note: 'Проводилось на неделе 2–8 ноября 2026 года.', deadline: { kind: 'unknown' } },
+        { id: 'alg-practice-8-1', title: 'Практическая работа 8.1', type: 'practice', deadline: { kind: 'window', start: '2026-11-23', end: '2026-12-20' } },
+        { id: 'alg-practice-8-2', title: 'Практическая работа 8.2', type: 'practice', deadline: { kind: 'window', start: '2026-11-23', end: '2026-12-20' } }
       ]
     },
     {
